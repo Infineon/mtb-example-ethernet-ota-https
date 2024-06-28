@@ -1,0 +1,14 @@
+{
+  "Message":"Update Available",
+  "Manufacturer":"Infineon",
+  "ManufacturerId":"ABCD123",
+  "Product":"XMC7000",
+  "SerialNumber":"ABCD213N0001",
+  "Board":"APP_KIT_XMC72_EVK",
+  "Version":"1.0.0",
+  "Connection":"HTTPS",
+  "Server":"192.168.0.10",
+  "Port":"443",
+  "File":"/mtb-example-ethernet-ota-https.bin",
+  "UniqueTopicName":"replace"
+}
