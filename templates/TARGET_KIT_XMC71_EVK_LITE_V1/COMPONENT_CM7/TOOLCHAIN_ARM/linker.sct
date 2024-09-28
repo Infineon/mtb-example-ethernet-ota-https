@@ -3,7 +3,7 @@
 ; to pass a scatter file through a C preprocessor.
 
 ;*******************************************************************************
-;* \file xmc7200_x8384_cm7.sct
+;* \file xmc7100_x4160_cm7.sct
 ;* \version 1.0
 ;*
 ;* Linker file for the ARMCC.
@@ -52,10 +52,10 @@
 
 
 ; RAM
-#define SRAM_TOTAL_SIZE                 0x00100000     /* 1024K : SRAM0 + SRAM1 */
+#define SRAM_TOTAL_SIZE                 0x000C0000     /* 768K: SRAM0 + SRAM1 */
 
 ; FLASH
-#define CODE_FLASH_TOTAL_SIZE           0x00830000    /* 8384K : TOTAL FLASH SIZE */
+#define CODE_FLASH_TOTAL_SIZE           0x00410000    /* 4160K: TOTAL FLASH SIZE */
 
 #define SRAM_START_RESERVE              0
 #define SRAM_PRIVATE_FOR_SROM           0x800 /* 2K Private SRAM for SROM (e.g. API processing). Reserved at the beginning */
@@ -65,12 +65,12 @@
 ; RAM
 #define SRAM_BASE_ADDRESS               0x28000000  /* SRAM START */
 #define CM0PLUS_SRAM_RESERVE            0x00020000  /* 128K : cm0 sram size */
-#define CM7_0_SRAM_RESERVE              0x000D0000  /* 832K: cm7_0 sram size */
+#define CM7_0_SRAM_RESERVE              0x0008DC00  /* 576K: cm7_0 sram size */
 
 ; FLASH
 #define CODE_FLASH_BASE_ADDRESS         0x10000000  /* FLASH START */
 #define CM0PLUS_CODE_FLASH_RESERVE      0x00080000  /* 512K : cm0 flash size */
-#define CM7_0_CODE_FLASH_RESERVE        0x00770000  /* 7616K: cm7_0 flash size */
+#define CM7_0_CODE_FLASH_RESERVE        0x00350000  /* 3392K: cm7_0 flash size */
 
 ; SRAM reservations
 #define BASE_SRAM_CM0P                  SRAM_BASE_ADDRESS + SRAM_START_RESERVE + SRAM_PRIVATE_FOR_SROM

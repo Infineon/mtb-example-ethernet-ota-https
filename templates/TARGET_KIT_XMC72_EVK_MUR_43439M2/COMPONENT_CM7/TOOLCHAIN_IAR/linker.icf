@@ -70,7 +70,6 @@ define symbol __ICFEDIT_region_ERAM2_start__ = 0x0;
 define symbol __ICFEDIT_region_ERAM2_end__   = 0x0;
 define symbol __ICFEDIT_region_ERAM3_start__ = 0x0;
 define symbol __ICFEDIT_region_ERAM3_end__   = 0x0;
-
 /*-Sizes-*/
 if (!isdefinedsymbol(__STACK_SIZE)) {
   define symbol __ICFEDIT_size_cstack__ = 0x1000;

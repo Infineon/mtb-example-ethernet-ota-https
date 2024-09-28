@@ -54,7 +54,8 @@
 #include "cy_ota_api.h"
 /* OTA storage api */
 #include "cy_ota_storage_api.h"
-
+/* Ethernet PHY driver */
+#include "cy_eth_phy_driver.h"
 /*******************************************************************************
 * Macros
 ********************************************************************************/
@@ -66,6 +67,13 @@
 
 /* Application ID */
 #define APP_ID                              (0)
+
+/* Ethernet interface ID */
+#ifdef XMC7100D_F176K4160
+#define INTERFACE_ID                        CY_ECM_INTERFACE_ETH0
+#else
+#define INTERFACE_ID                        CY_ECM_INTERFACE_ETH1
+#endif
 
 /*******************************************************************************
 * Forward declaration
@@ -191,7 +199,18 @@ void ota_task(void *args)
 
     vTaskSuspend( NULL );
  }
-
+cy_ecm_phy_callbacks_t phy_callbacks =
+{
+        .phy_init = cy_eth_phy_init,
+        .phy_configure = cy_eth_phy_configure,
+        .phy_enable_ext_reg = cy_eth_phy_enable_ext_reg,
+        .phy_discover = cy_eth_phy_discover,
+        .phy_get_auto_neg_status = cy_eth_phy_get_auto_neg_status,
+        .phy_get_link_partner_cap = cy_eth_phy_get_link_partner_cap,
+        .phy_get_linkspeed = cy_eth_phy_get_linkspeed,
+        .phy_get_linkstatus = cy_eth_phy_get_linkstatus,
+        .phy_reset = cy_eth_phy_reset
+};
 /******************************************************************************
  * Function Name: ethernet_connect
  ******************************************************************************
@@ -221,11 +240,6 @@ cy_rslt_t ethernet_connect(void)
 
     /* Variables used by Ethernet connection manager.*/
     uint8_t conn_retries = 0;
-    cy_ecm_phy_config_t ecm_phy_config = {
-        .interface_speed_type = CY_ECM_SPEED_TYPE_RGMII,
-        .mode = CY_ECM_DUPLEX_AUTO,
-        .phy_speed = CY_ECM_PHY_SPEED_AUTO
-    };
 
     /* Initialize Ethernet connection manager. */
     result = cy_ecm_init();
@@ -237,7 +251,7 @@ cy_rslt_t ethernet_connect(void)
     }
 
     printf("Initiating cy_ecm_ethif_init \n");
-    result =  cy_ecm_ethif_init(CY_ECM_INTERFACE_ETH1, NULL, &ecm_phy_config, &ecm_handle);
+    result =  cy_ecm_ethif_init(INTERFACE_ID, &phy_callbacks, &ecm_handle);
 
     if(CY_RSLT_SUCCESS != result)
     {

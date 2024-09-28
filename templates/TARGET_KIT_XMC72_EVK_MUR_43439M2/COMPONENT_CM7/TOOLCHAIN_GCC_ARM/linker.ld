@@ -1,5 +1,5 @@
 /***************************************************************************//**
-* \file xmc7200d_x8384_cm7.ld
+* \file xmc7200_x8384_cm7.ld
 * \version 1.0.0
 *
 * Linker file for the GNU C compiler.
@@ -54,7 +54,7 @@ sram_total_size                     = 0x00100000; /* SRAM0 + SRAM1 */
 sram_private_for_srom               = 0x00000800; /* Private SRAM for SROM (e.g. API processing) */
 sram_used_by_boot                   = 0x0; /* Used during boot by Cypress firmware (content will be overwritten on reset, so it should not be used for loadable sections in case of RAM build configurations) */
 
-cm0plus_sram_reserve                = 0x00020000; /* 128K : cm0 sram size */
+cm0plus_sram_reserve                = 0x00020000; /* 128K: cm0 sram size */
 cm7_0_sram_reserve                  = 0x000D0000; /* 832K: cm7_0 sram size */
 
 code_flash_total_size               = 0x00830000; /* 8384K: total flash size */
@@ -131,7 +131,7 @@ MEMORY
 {
     /* The ram and flash regions control RAM and flash memory allocation for the CM7_0/CM7_1 core. */
     ram                 (rxw)       : ORIGIN = _base_SRAM,               LENGTH =  _size_SRAM          /* SRAM */
-    flash_cm0p          (rx)        : ORIGIN = _base_CODE_FLASH_CM0P,       LENGTH = _size_CODE_FLASH_CM0P      /* CODE flash CM0+ */
+    flash_cm0p          (rx)        : ORIGIN = _base_CODE_FLASH_CM0P,    LENGTH = _size_CODE_FLASH_CM0P      /* CODE flash CM0+ */
     flash               (rx)        : ORIGIN = code_flash_base_address + FLASH_AREA_IMG_1_PRIMARY_START,      LENGTH = FLASH_AREA_IMG_1_PRIMARY_SIZE           /* CODE flash CM7_0/1 */
 
     /* This is a 256K flash region used for EEPROM emulation. This region can also be used as the general purpose flash.
@@ -206,6 +206,7 @@ SECTIONS
         KEEP(*(.eh_frame*))
     } > flash
 
+
     .ARM.extab :
     {
         *(.ARM.extab* .gnu.linkonce.armextab.*)
@@ -251,7 +252,6 @@ SECTIONS
         LONG ((__bss_end__ - __bss_start__)/4)
         __zero_table_end__ = .;
     } > flash
-
 
     /* itcm */
     .cy_itcm ORIGIN(itcm):
@@ -437,6 +437,7 @@ SECTIONS
     {
         KEEP(*(.cy_efuse))
     } > efuse
+
 }
 
 

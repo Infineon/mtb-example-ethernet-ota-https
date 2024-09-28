@@ -1,7 +1,7 @@
 /******************************************************************************
 * File Name: main.c
 *
-* Description: This code example demonstrates OTA update with XMC7000 MCU and
+* Description: This code example demonstrates OTA update with XMC7000 MCU
 * over Ethernet. The device establishes a connection with the designated
 * HTTP/HTTPS server. It periodically checks the job document to see if a
 * new update is available. When a new update is available, it will be
@@ -98,6 +98,7 @@ int main(void)
 
     /* Initialize the board support package */
     result = cybsp_init();
+    cycfg_config_init();
 
     /* Board init failed. Stop program execution */
     if (CY_RSLT_SUCCESS != result)
@@ -142,9 +143,6 @@ int main(void)
     /* Watchdog timer started by the bootloader */
     cyhal_wdt_free(NULL);
     printf("\nWatchdog timer started by the bootloader is now turned off!!!\n\n");
-
-    /* Disable device Deep Sleep entry as the ECM currently does not support that mode */
-    cyhal_syspm_lock_deepsleep();
 
     /* Create the tasks */
     xTaskCreate(ota_task, "OTA TASK", OTA_TASK_STACK_SIZE, NULL,

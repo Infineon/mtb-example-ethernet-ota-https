@@ -14,26 +14,29 @@ Build the MCUboot-based bootloader application outside of the OTA HTTPS applicat
 
 [View this README on GitHub.](https://github.com/Infineon/mtb-example-ethernet-ota-https)
 
-[Provide feedback on this code example.](https://cypress.co1.qualtrics.com/jfe/form/SV_1NTns53sK2yiljn?Q_EED=eyJVbmlxdWUgRG9jIElkIjoiQ0UyNDAxMDMiLCJTcGVjIE51bWJlciI6IjAwMi00MDEwMyIsIkRvYyBUaXRsZSI6Ik9UQSBmaXJtd2FyZSB1cGRhdGUgdXNpbmcgSFRUUFMiLCJyaWQiOiJzcmRzIiwiRG9jIHZlcnNpb24iOiIxLjAuMCIsIkRvYyBMYW5ndWFnZSI6IkVuZ2xpc2giLCJEb2MgRGl2aXNpb24iOiJNQ0QiLCJEb2MgQlUiOiJJQ1ciLCJEb2MgRmFtaWx5IjoiUFNPQyJ9)
+[Provide feedback on this code example.](https://cypress.co1.qualtrics.com/jfe/form/SV_1NTns53sK2yiljn?Q_EED=eyJVbmlxdWUgRG9jIElkIjoiQ0UyNDAxMDMiLCJTcGVjIE51bWJlciI6IjAwMi00MDEwMyIsIkRvYyBUaXRsZSI6Ik9UQSBmaXJtd2FyZSB1cGRhdGUgdXNpbmcgSFRUUFMiLCJyaWQiOiJzcmRzIiwiRG9jIHZlcnNpb24iOiIyLjAuMCIsIkRvYyBMYW5ndWFnZSI6IkVuZ2xpc2giLCJEb2MgRGl2aXNpb24iOiJNQ0QiLCJEb2MgQlUiOiJJQ1ciLCJEb2MgRmFtaWx5IjoiUFNPQyJ9)
 
 ## Requirements
 
 - [ModusToolbox&trade;](https://www.infineon.com/modustoolbox) v3.2 or later (tested with v3.2)
-- Board support package (BSP) minimum required version: 4.0.0
+- Board support package (BSP) minimum required version: 5.0.0
 - Programming language: C
-- Other tools: Python v3.8.10 or later
+- Other tools: Python v3.8.10
 - Associated parts: [XMC7000 MCU](https://www.infineon.com/cms/en/product/microcontroller/32-bit-industrial-microcontroller-based-on-arm-cortex-m/)
 
 ## Supported toolchains (make variable 'TOOLCHAIN')
 
 - GNU Arm&reg; Embedded Compiler v11.3.1 (`GCC_ARM`) – Default value of `TOOLCHAIN`
-- Arm&reg; Compiler v6.16 (`ARM`)
-- IAR C/C++ Compiler v9.40.2 (`IAR`)
+- Arm&reg; Compiler v6.22 (`ARM`)
+- IAR C/C++ Compiler v9.50.2 (`IAR`)
+
+> **Note:** This code example currently does not support the Arm&reg; Compiler for XMC7100 device.
 
 ## Supported kits (make variable 'TARGET')
 
 - [XMC7200 Evaluation Kit](https://www.infineon.com/KIT_XMC72_EVK) (`KIT_XMC72_EVK`) – Default value of `TARGET`
 - [XMC7200 Evaluation Kit](https://www.infineon.com/KIT_XMC72_EVK) (`KIT_XMC72_EVK_MUR_43439M2`)
+- [XMC7100 Evaluation Kit](https://www.infineon.com/KIT_XMC71_EVK_LITE_V1) (`KIT_XMC71_EVK_LITE_V1`)
 
 ## Hardware setup
 
@@ -196,6 +199,7 @@ The [mtb-example-mcuboot-basic](https://github.com/Infineon/mtb-example-mcuboot-
    Target      | Supported JSON files
    ----------- |----------------------------------
    KIT_XMC72_EVK <br> KIT_XMC72_EVK_MUR_43439M2 | *xmc7200_int_overwrite_single.json* <br> *xmc7200_int_swap_single.json*
+   KIT_XMC71_EVK_LITE_V1 | *xmc7100_int_overwrite_single.json* <br> *xmc7100_int_swap_single.json*
 
    <br>
 
@@ -216,10 +220,7 @@ The [mtb-example-mcuboot-basic](https://github.com/Infineon/mtb-example-mcuboot-
     > **Note:** For Linux and macOS platforms, use `python3` instead of `python` in the following command:
 
       ```
-      python -m pip install -r requirements.txt
-      ```
-      ```
-      python -m pip install --upgrade cysecuretools==5.0.0
+      python -m pip install --upgrade cysecuretools
       ```
 
     > **Note:** *cysecuretools* is used for signing the image for XMC7000 MCUs.
@@ -330,6 +331,7 @@ This code example uses a local server to demonstrate the OTA operation over HTTP
    Target      | `PLATFORM` value
    ----------- |----------------------------------
    KIT_XMC72_EVK <br> KIT_XMC72_EVK_MUR_43439M2 | XMC7200
+   KIT_XMC71_EVK_LITE_V1 | XMC7100
 
    <br>
 
@@ -342,6 +344,7 @@ This code example uses a local server to demonstrate the OTA operation over HTTP
    Target      | Supported JSON files
    ----------- |----------------------------------
    KIT_XMC72_EVK <br> KIT_XMC72_EVK_MUR_43439M2 | *xmc7200_int_overwrite_single.json* <br> *xmc7200_int_swap_single.json*
+   KIT_XMC71_EVK_LITE_V1 | *xmc7100_int_overwrite_single.json* <br> *xmc7100_int_swap_single.json*
 
    <br>
 
@@ -608,6 +611,7 @@ The MCUboot-based bootloader application includes a sample public key (*cypress-
 
 > **Note:** See [Security](https://github.com/Infineon/mtb-example-mcuboot-basic/blob/master/README.md#security) to learn more about the image authentication feature of MCUboot.
 
+Currently this code example uses the TLS v1.2. To use the TLS v1.3, uncomment the `MBEDTLS_SSL_PROTO_TLS1_3` and `FORCE_TLS_VERSION MBEDTLS_SSL_VERSION_TLS1_3` defines in the mbedtls_user_config.h file. However, note that the socket receive fails if the application establishes TLS v1.3 connection to a server where session tickets are enabled. This is due to a bug in third-party MBEDTLS library.
 
 ### Resources and settings
 
@@ -647,6 +651,7 @@ Document title: *CE240103* – *OTA firmware update using HTTPS*
  Version | Description of change
  ------- | ---------------------
  1.0.0   | New code example
+ 2.0.0   | Updated to support Ethernet Connection Manager (ECM) v2.0 <br> Added support for KIT_XMC71_EVK_LITE_V1
 <br>
 
 All referenced product or service names and trademarks are the property of their respective owners.

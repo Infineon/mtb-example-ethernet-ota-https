@@ -76,7 +76,11 @@ VERBOSE=
 ###############################################################################
 
 # Set Platform type
+ifneq ($(filter $(TARGET), APP_KIT_XMC71_EVK_LITE_V1),)
+PLATFORM=XMC7100
+else
 PLATFORM=XMC7200
+endif
 
 # Core processor
 CORE=CM7
@@ -113,8 +117,9 @@ INCLUDES=./configs
 # Custom configuration of mbedtls library.
 MBEDTLSFLAGS=MBEDTLS_USER_CONFIG_FILE='"mbedtls_user_config.h"'
 DEFINES+=$(MBEDTLSFLAGS)
-DEFINES+=CYBSP_ETHERNET_CAPABLE CY_RETARGET_IO_CONVERT_LF_TO_CRLF
-DEFINES+=CY_RTOS_AWARE
+DEFINES+=CY_RTOS_AWARE CYBSP_ETHERNET_CAPABLE CY_RETARGET_IO_CONVERT_LF_TO_CRLF
+# Disable the data cache for XMC7000 devices
+DEFINES+=CY_DISABLE_XMC7000_DATA_CACHE
 
 # Select softfp or hardfp floating point. Default is softfp.
 VFP_SELECT=hardfp
@@ -185,11 +190,15 @@ ifeq ($(OTA_SUPPORT),1)
 OTA_HTTP_SUPPORT=1
 
 # Set OTA platform type (added to defines and used when finding the linker script)
-# E.g. PSOC_062_2M, PSOC_062_512K and XMC7200
+# E.g. XMC7100, XMC7200
 OTA_PLATFORM=$(PLATFORM)
 
 # Flashmap JSON file name
+ifneq ($(filter $(TARGET), APP_KIT_XMC71_EVK_LITE_V1),)
+OTA_FLASH_MAP=flashmap/xmc7100_int_swap_single.json
+else
 OTA_FLASH_MAP=flashmap/xmc7200_int_swap_single.json
+endif
 
 # Starting from the 4.0 version of the ota-update library, the library is now fully separated from the MCUBootloader.
 # This means that it can function independently and work with any bootloader.

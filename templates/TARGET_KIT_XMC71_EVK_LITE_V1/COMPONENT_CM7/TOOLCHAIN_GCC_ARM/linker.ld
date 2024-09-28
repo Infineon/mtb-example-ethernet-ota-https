@@ -1,5 +1,5 @@
 /***************************************************************************//**
-* \file xmc7200_x8384_cm7.ld
+* \file xmc7100_x4160_cm7.ld
 * \version 1.0.0
 *
 * Linker file for the GNU C compiler.
@@ -50,16 +50,16 @@ RAMVECTORS_ALIGNMENT                = 128;
 
 sram_start_reserve                  = 0;
 
-sram_total_size                     = 0x00100000; /* SRAM0 + SRAM1 */
+sram_total_size                     = 0x000C0000; /* 768K: SRAM0 + SRAM1 */
 sram_private_for_srom               = 0x00000800; /* Private SRAM for SROM (e.g. API processing) */
 sram_used_by_boot                   = 0x0; /* Used during boot by Cypress firmware (content will be overwritten on reset, so it should not be used for loadable sections in case of RAM build configurations) */
 
-cm0plus_sram_reserve                = 0x00020000; /* 128K: cm0 sram size */
-cm7_0_sram_reserve                  = 0x000D0000; /* 832K: cm7_0 sram size */
+cm0plus_sram_reserve                = 0x00020000; /* 128K : cm0 sram size */
+cm7_0_sram_reserve                  = 0x0008DC00; /* 576K: cm7_0 sram size */
 
-code_flash_total_size               = 0x00830000; /* 8384K: total flash size */
+code_flash_total_size               = 0x00410000; /* 4160K: total flash size */
 cm0plus_code_flash_reserve          = 0x00080000; /* 512K : cm0 flash size */
-cm7_0_code_flash_reserve            = 0x00770000; /* 7616K: cm7_0 flash size */
+cm7_0_code_flash_reserve            = 0x00350000; /* 3392K: cm7_0 flash size */
 
 code_flash_base_address             = 0x10000000;
 sram_base_address                   = 0x28000000;
@@ -437,7 +437,6 @@ SECTIONS
     {
         KEEP(*(.cy_efuse))
     } > efuse
-
 }
 
 
