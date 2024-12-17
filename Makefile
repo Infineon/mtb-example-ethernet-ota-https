@@ -118,8 +118,6 @@ INCLUDES=./configs
 MBEDTLSFLAGS=MBEDTLS_USER_CONFIG_FILE='"mbedtls_user_config.h"'
 DEFINES+=$(MBEDTLSFLAGS)
 DEFINES+=CY_RTOS_AWARE CYBSP_ETHERNET_CAPABLE CY_RETARGET_IO_CONVERT_LF_TO_CRLF
-# Disable the data cache for XMC7000 devices
-DEFINES+=CY_DISABLE_XMC7000_DATA_CACHE
 
 # Select softfp or hardfp floating point. Default is softfp.
 VFP_SELECT=hardfp
